@@ -1,4 +1,4 @@
-# OmegaAML
+# Cinlat Logistic Test
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.0.
 
@@ -60,9 +60,20 @@ For more information on using the Angular CLI, including detailed command refere
 
 
 ###
-Ejecucion local ahora se conecta a API OmegaAML.Security de forma local en el puerto 8888 (localhost:8888)
+docker build -t cinlatlogistic-front .
+
+docker run -d -it -p 4200:80 --name CinlatLogistic-Front cinlatlogistic-front
+
+
+docker build --progress=plain --no-cache -t cinlatlogistic-back ./
+
+docker run -d -p 5025:5025 --name CinlatLogistic-Back cinlatlogistic-back
+
 
 
 ### Docker
 ejecutar:
-docker run -d -it -p 4200:80 --name OmegaAML-Front  omegaaml-front 
+
+docker-compose up -d
+
+cocker-compose down

@@ -3,22 +3,23 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import { DashboardServices } from './../../services/dashboard-services/dashboard-services';
-import { CountryArea } from './../../interfaces/countryArea';
+import { CountryPopulation } from '../../interfaces/countryPopulation';
 
 Chart.register(...registerables);
 
 @Component({
-  selector: 'app-country-area-chart',
+  selector: 'app-country-population-chart',
   imports: [CommonModule, HttpClientModule],
-  templateUrl: './country-area-chart.html',
-  styleUrl: './country-area-chart.scss',
+  templateUrl: './country-population-chart.html',
+  styleUrl: './country-population-chart.scss',
   standalone: true
 })
-export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
+export class CountryPopulationChart implements OnInit, OnDestroy, AfterViewInit{
+
   @ViewChild('chartCanvas', { static: false }) chartCanvas?: ElementRef<HTMLCanvasElement>;
 
 
-  countriesData = signal<CountryArea[]>([]);
+  populationData = signal<CountryPopulation[]>([]);
   isLoading = signal<boolean>(false);
   errorMessage = signal<string>('');
 
@@ -42,19 +43,19 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
     this.isLoading.set(true);
     this.errorMessage.set('');
 
-    const mockData: CountryArea[] = [
-    { commonName: "Aruba", area: 180 },
-    { commonName: "Afghanistan", area: 652230 },
-    { commonName: "Angola", area: 1246700 },
-    { commonName: "Anguilla", area: 91 },
-    { commonName: "Åland Islands", area: 1580 }
+    const mockData: CountryPopulation[] = [
+    { commonName: "Aruba", population: 180 },
+    { commonName: "Afghanistan", population: 652230 },
+    { commonName: "Angola", population: 1246700 },
+    { commonName: "Anguilla", population: 91 },
+    { commonName: "Åland Islands", population: 1580 }
   ];
 
 
-    this.dashboardService.getCountriesArea().subscribe({
-      next: (data: CountryArea[]) => {
+    this.dashboardService.getCountriesPopulation().subscribe({
+      next: (data: CountryPopulation[]) => {
         console.log('✅ Datos recibidos:', data);
-        this.countriesData.set(data);
+        this.populationData.set(data);
         this.isLoading.set(false);
 
         // Si el view está listo, crear la gráfica; si no, ngAfterViewInit la iniciará
@@ -71,6 +72,7 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
     });
   }
 
+  
 
   private createChart(): void {
     
@@ -78,10 +80,10 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
       this.chart.destroy();
     }
 
-    const data = this.countriesData();
+    const data = this.populationData();
 
     const labels = data.map(country => country.commonName);
-    const areas = data.map(country => country.area);
+    const areas = data.map(country => country.population);
 
     // Configuración de la gráfica
     const config: ChartConfiguration = {
@@ -89,7 +91,7 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
       data: {
         labels: labels,
         datasets: [{
-          label: 'Área (km²)',
+          label: 'Personas',
           data: areas,
           backgroundColor: 'rgba(54, 162, 235, 0.6)',
           borderColor: 'rgba(54, 162, 235, 1)',
@@ -101,10 +103,11 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        indexAxis: 'y' as const,
         plugins: {
           title: {
             display: true,
-            text: 'Área de Países (km²)',
+            text: 'Poblacion de Países',
             font: {
               size: 18,
               weight: 'bold'
@@ -117,8 +120,8 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
           tooltip: {
             callbacks: {
               label: (context) => {
-                const value = context.parsed.y;
-                return `Área: ${value?.toString()} km²`;
+                const value = context.parsed.x;
+                return `Personas: ${value?.toString()} `;
               }
             }
           }
@@ -127,7 +130,7 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
           x: {
             title: {
               display: true,
-              text: 'País',
+              text: 'Personas',
               font: {
                 size: 14,
                 weight: 'bold'
@@ -144,7 +147,7 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
           y: {
             title: {
               display: true,
-              text: 'Área (km²)',
+              text: 'Pais',
               font: {
                 size: 14,
                 weight: 'bold'
@@ -152,9 +155,11 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
             },
             beginAtZero: true,
             ticks: {
-              callback: (value) => {
-                return value.toLocaleString();
-              }
+              maxRotation: 0,
+                    minRotation: 0,
+                    font: {
+                        size: 11
+                    }
             }
           }
         }
@@ -199,15 +204,16 @@ export class CountryAreaChart implements OnInit, OnDestroy, AfterViewInit{
   
   
   
-  getTotalArea(): number {
-    return this.countriesData().reduce((sum, country) => sum + country.area, 0);
+  getTotalPopulation(): number {
+    return this.populationData().reduce((sum, country) => sum + country.population, 0);
   }
 
 
-  getAverageArea(): number {
-    const data = this.countriesData();
+  getAveragePopulation(): number {
+    const data = this.populationData();
     if (data.length === 0) return 0;
-    return this.getTotalArea() / data.length;
+    return this.getTotalPopulation() / data.length;
   }
+
 
 }

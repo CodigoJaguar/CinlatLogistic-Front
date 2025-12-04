@@ -1,6 +1,6 @@
 
 <div class="chart-container">
-      <h2>📊 Área de Países por Metros Cuadrados mayores a 2M</h2>
+      <h2>📊 Poblacion de Países mayores a 140M de personas</h2>
 
       @if (isLoading()) {
         <div class="loading">
@@ -30,15 +30,15 @@
         <div class="stats">
           <div class="stat-card">
             <span class="stat-label">Total países:</span>
-            <span class="stat-value">{{ countriesData().length }}</span>
+            <span class="stat-value">{{ populationData().length }}</span>
           </div>
           <div class="stat-card">
-            <span class="stat-label">Área total:</span>
-            <span class="stat-value">{{ getTotalArea() | number:'1.0-0' }} km²</span>
+            <span class="stat-label">Poblacion total:</span>
+            <span class="stat-value">{{ getTotalPopulation() | number:'1.0-0' }} </span>
           </div>
           <div class="stat-card">
-            <span class="stat-label">Área promedio:</span>
-            <span class="stat-value">{{ getAverageArea() | number:'1.0-0' }} km²</span>
+            <span class="stat-label">Poblacion promedio:</span>
+            <span class="stat-value">{{ getAveragePopulation() | number:'1.0-0' }} </span>
           </div>
         </div>
       }
