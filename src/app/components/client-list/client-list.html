@@ -1,0 +1,104 @@
+<div class="client-list-container">
+  <p-card header="Client List">
+    <p-table 
+      [value]="clients()" 
+      [paginator]="true" 
+      [rows]="10" 
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} clients"
+      [tableStyle]="{'min-width': '50rem'}"
+      >
+      
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">
+            ID <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th pSortableColumn="persona.nombre">
+            Nombre <p-sortIcon field="persona.nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="giro">
+            Giro <p-sortIcon field="giro"></p-sortIcon>
+          </th>
+          <th pSortableColumn="riesgo">
+            Riesgo <p-sortIcon field="riesgo"></p-sortIcon>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      
+      
+      @if(clients().length === 0){
+        <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center">
+            <div class="empty-message">
+              <i class="pi pi-info-circle" style="font-size: 2rem; color: var(--text-color-secondary);"></i>
+              <p>No clients found.</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      }@else {
+        <ng-template pTemplate="body" let-client>
+        <tr>
+          <td>{{ client.id }}</td>
+          <td>
+            <div class="client-name">
+              <i class="pi pi-user" style="margin-right: 0.5rem;"></i>
+              {{ client.persona.nombre }}
+            </div>
+          </td>
+          <td>
+            <div class="client-email">
+              <i class="pi pi-envelope" style="margin-right: 0.5rem;"></i>
+              {{ client.giro }}
+            </div>
+          </td>
+          <td>
+            <div class="client-phone">
+              <i class="pi pi-phone" style="margin-right: 0.5rem;"></i>
+              {{ client.riesgo }}
+            </div>
+          </td>
+          <td>
+            <!-- <p-button 
+              icon="pi pi-eye" 
+              [text]="true" 
+              severity="info"
+              pTooltip="View Details"
+              (onClick)="viewClient(client)">
+            </p-button>
+            <p-button 
+              icon="pi pi-pencil" 
+              [text]="true" 
+              severity="secondary"
+              pTooltip="Edit Client"
+              (onClick)="editClient(client)">
+            </p-button>
+            <p-button 
+              icon="pi pi-trash" 
+              [text]="true" 
+              severity="danger"
+              pTooltip="Delete Client"
+              (onClick)="deleteClient(client)">
+            </p-button> -->
+          </td>
+        </tr>
+      </ng-template>
+      }
+      
+      
+      <!-- <ng-template pTemplate="loadingbody">
+        <tr>
+          <td colspan="5">
+            <div class="loading-message text-center">
+              <i class="pi pi-spinner pi-spin" style="font-size: 2rem;"></i>
+              <p>Loading clients...</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template> -->
+    </p-table>
+  </p-card>
+</div>

@@ -1,0 +1,35 @@
+@if (isVisible()) {
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <div class="dashboard-tabs">
+        @for (tab of dashboardTabs; track tab.id) {
+          <button 
+            class="dashboard-tab" 
+            [class.active]="activeDashboardTab() === tab.id"
+            (click)="setActiveDashboardTab(tab.id)"
+            type="button">
+            <span class="tab-icon">{{ tab.icon }}</span>
+            <span class="tab-label">{{ tab.label }}</span>
+          </button>
+        }
+      </div>
+      
+      <div class="user-section">
+        <div class="user-avatar">
+          <div class="avatar-placeholder">
+            <span class="avatar-initials">{{ user.name?.charAt(0) }}</span>
+          </div>
+        </div>
+        <div class="user-info">
+          <div class="user-name">{{ user.name }}</div>
+          <div class="user-email">{{ user.email }}</div>
+        </div>
+        <div class="user-menu">
+          <button class="logout-button" type="button" (click)="onLogout()" title="Cerrar sesión">
+            🚪Log Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

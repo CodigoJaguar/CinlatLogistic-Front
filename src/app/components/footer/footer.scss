@@ -1,0 +1,58 @@
+.app-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  padding: 10px 0;
+  margin-top: auto;
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    
+    .footer-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: #6c757d;
+      
+      .app-name {
+        font-weight: 600;
+        color: #495057;
+      }
+      
+      .version {
+        color: #007bff;
+        font-weight: 500;
+      }
+      
+      .environment {
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        
+        &:contains("production") {
+          background-color: #d4edda;
+          color: #155724;
+        }
+        
+        &:contains("development") {
+          background-color: #fff3cd;
+          color: #856404;
+        }
+        
+        &:contains("staging") {
+          background-color: #cce5ff;
+          color: #004085;
+        }
+      }
+      
+      .separator {
+        color: #adb5bd;
+      }
+    }
+  }
+}

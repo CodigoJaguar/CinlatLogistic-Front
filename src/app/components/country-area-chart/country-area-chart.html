@@ -1,0 +1,45 @@
+
+<div class="chart-container">
+      <h2>📊 Área de Países por Metros Cuadrados</h2>
+
+      @if (isLoading()) {
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Cargando datos...</p>
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="error">
+          <p>❌ {{ errorMessage() }}</p>
+          <button (click)="loadData()">🔄 Reintentar</button>
+        </div>
+      }
+
+      <div class="chart-wrapper" style="width: 700px; height: 400px; margin: 50px auto; border: 2px dashed #ccc; padding: 10px; text-align: center;">
+        <canvas #chartCanvas></canvas> 
+      </div>
+
+      
+
+      <!-- Chart canvas -->
+      @if (!isLoading() && !errorMessage()) {
+       
+
+        <!-- Stats -->
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-label">Total países:</span>
+            <span class="stat-value">{{ countriesData().length }}</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Área total:</span>
+            <span class="stat-value">{{ getTotalArea() | number:'1.0-0' }} km²</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Área promedio:</span>
+            <span class="stat-value">{{ getAverageArea() | number:'1.0-0' }} km²</span>
+          </div>
+        </div>
+      }
+    </div>
