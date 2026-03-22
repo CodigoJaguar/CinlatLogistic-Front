@@ -37,7 +37,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload-batch --account-name testlogisticfront --auth-mode key -s $GITHUB_WORKSPACE/dist/ArmorCounter -d '$web'
+            az storage blob upload-batch --account-name testlogisticfront --auth-mode key -s $GITHUB_WORKSPACE/dist/ArmorCounter/browser -d '$web'
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
       with:
