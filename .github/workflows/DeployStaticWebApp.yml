@@ -13,6 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 24
+
+      # Runs a single command using the runners shell
+    - name: Install dependencies
+      run: npm install
+
+      # Runs a set of commands using the runners shell
+    - name: Build project
+      run: |
+          npm run build
+    
     - uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -23,7 +37,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload-batch --account-name testlogisticfront --auth-mode key -d '$web' -s .
+            az storage blob upload-batch --account-name testlogisticfront --auth-mode key -s $GITHUB_WORKSPACE/dist/ArmorCounter -d '$web'
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
       with:
